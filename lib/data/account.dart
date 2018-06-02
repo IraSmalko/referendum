@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'account.g.dart';
+part 'package:referendum/data/account.g.dart';
 
 @JsonSerializable()
 class Account extends Object with _$AccountSerializerMixin {

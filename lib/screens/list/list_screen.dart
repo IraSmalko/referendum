@@ -3,7 +3,7 @@ import 'package:referendum/data/poll.dart';
 import 'package:referendum/repository/mock_repo.dart';
 
 class ListScreen extends StatefulWidget {
-  static final String path = "/";
+  static final String path = "/list";
 
   ListScreen({Key key}) : super(key: key);
 
@@ -30,8 +30,7 @@ class _ListScreenState extends State<ListScreen> {
           return ConstrainedBox(
             constraints: BoxConstraints(minHeight: 24.0),
             child: new Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
               child: RadioListTile(
                 value: item,
                 title: Text(item.id),
