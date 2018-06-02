@@ -50,28 +50,36 @@ class _ListScreenState extends State<ListScreen> {
         },
       ),
       floatingActionButton: new Transform.translate(
-        offset: new Offset(width * 0.15 + 16.0, width * 0.15 + 16.0),
-        child: new Stack(
-          children: <Widget>[
-            new Ink(
-              child: new Material(
-                shape: new CircleBorder(),
-                color: Colors.green,
-                child: new SizedBox(
-                  height: width * 0.35,
-                  width: width * 0.35,
-                  child: InkWell(onTap: sendVoteResult),
-                ),
+        offset: new Offset(width * 0.2 + 24.0, width * 0.2 + 24.0),
+        child: Container(
+          decoration: BoxDecoration(gradient: RadialGradient(radius: 0.5, colors: [Colors.black, Colors.transparent])),
+          child: new Transform.translate(
+            offset: new Offset(0.0, 0.0),
+            child: new Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: new Stack(
+                children: <Widget>[
+                  new Ink(
+                    child: new Material(
+                      shape: new CircleBorder(),
+                      color: Colors.green,
+                      child: new SizedBox(
+                        height: width * 0.35,
+                        width: width * 0.35,
+                        child: InkWell(onTap: sendVoteResult),
+                      ),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: new Offset(width * 0.08, width * 0.1),
+                    child: Text(
+                      'Vote',
+                    ),
+                  ),
+                ],
               ),
-              //onTap: sendVoteResult,
             ),
-            Transform.translate(
-              offset: new Offset(width * 0.08, width * 0.1),
-              child: Text(
-                'Vote',
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
