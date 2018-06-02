@@ -5,7 +5,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pigment/pigment.dart';
-import 'package:referendum/entities/account.dart';
+import 'package:referendum/data/account.dart';
 
 class HomeScreen extends StatefulWidget {
   static final String path = "/";
