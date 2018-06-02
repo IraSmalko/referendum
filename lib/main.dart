@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:referendum/screens/home/home.dart';
 import 'package:referendum/screens/list/list_screen.dart';
 
 void main() => runApp(new MyApp());
@@ -10,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Referendum',
       routes: {
-        HomeScreen.path: (ctx) => HomeScreen(),
+        //HomeScreen.path: (ctx) => HomeScreen(),
         ListScreen.path: (ctx) => ListScreen(),
       },
       theme: ThemeData(

@@ -3,7 +3,7 @@ import 'package:referendum/data/poll.dart';
 import 'package:referendum/repository/mock_repo.dart';
 
 class ListScreen extends StatefulWidget {
-  static final String path = "/list";
+  static final String path = "/";
 
   ListScreen({Key key}) : super(key: key);
 
@@ -12,17 +12,20 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final items = MockRepo.getPollList();
 
   PollItem _selection;
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     final title = 'Let\'s start a referendum';
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(title),
       ),
+      key: _scaffoldKey,
       body: new ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -46,8 +49,35 @@ class _ListScreenState extends State<ListScreen> {
           );
         },
       ),
+      floatingActionButton: new Transform.translate(
+        offset: new Offset(width * 0.15 + 16.0, width * 0.15 + 16.0),
+        child: new Stack(
+          children: <Widget>[
+            new Ink(
+              child: new Material(
+                shape: new CircleBorder(),
+                color: Colors.green,
+                child: new SizedBox(
+                  height: width * 0.35,
+                  width: width * 0.35,
+                  child: InkWell(onTap: sendVoteResult),
+                ),
+              ),
+              //onTap: sendVoteResult,
+            ),
+            Transform.translate(
+              offset: new Offset(width * 0.08, width * 0.1),
+              child: Text(
+                'Vote',
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  void sendVoteResult() {}
+  void sendVoteResult() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Hi sendVoteResult')));
+  }
 }
