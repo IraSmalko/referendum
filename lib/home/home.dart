@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pigment/pigment.dart';
+import 'package:referendum/entities/account.dart';
 
 class HomeScreen extends StatefulWidget {
   static final String path = "/";
@@ -14,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  String qr;
 
   Animation<double> anim;
   AnimationController animController;
@@ -33,10 +34,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     animController.forward();
   }
 
-  Future _scanQR() async {
+  void _parseQrResult(String result) {
+    Map accountMap = json.decode(result);
+    var account = new Account.fromJson(accountMap);
+    _scaffoldKey.currentState.showBottomSheet((context) {
+      return Container(
+        height: 128.0,
+        child: Center(child: Text("Private: ${account.priv}\nPublic: ${account.pub}")),
+      );
+    });
+  }
+
+  Future _scanQr() async {
     try {
-      String qr = await BarcodeScanner.scan();
-      setState(() => this.qr = qr);
+      String result = await BarcodeScanner.scan();
+      setState(() => _parseQrResult(result));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         _scaffoldKey.currentState
@@ -85,17 +97,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           textScaleFactor: 2.0,
                         ),
                         shape: CircleBorder(),
-                        onPressed: _scanQR,
+                        onPressed: _scanQr,
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text("QR: $qr"),
           ),
         ],
       ),
