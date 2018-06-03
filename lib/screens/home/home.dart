@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _parseQrResult(String result) {
     Map accountMap = json.decode(result);
     var account = new Account.fromJson(accountMap);
-    Navigator.of(context).popAndPushNamed(ListScreen.path);
+    Navigator.of(context).pushReplacementNamed(ListScreen.path);
   }
 
   Future _scanQr() async {
