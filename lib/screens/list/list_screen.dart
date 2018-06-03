@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pigment/pigment.dart';
 import 'package:referendum/data/poll.dart';
 import 'package:referendum/repository/mock_repo.dart';
 
@@ -15,39 +16,53 @@ class _ListScreenState extends State<ListScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final items = MockRepo.getPollList();
 
+  final height = 96.0;
+  final padding = 16.0;
   PollItem _selection;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final title = 'Let\'s start a referendum';
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(title),
-      ),
+      backgroundColor: Pigment.fromString("#263238"),
       key: _scaffoldKey,
-      body: new ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 24.0),
-            child: new Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-              child: RadioListTile(
-                value: item,
-                title: Text(item.id),
-                groupValue: _selection,
-                selected: item == _selection,
-                onChanged: (s) {
-                  setState(() {
-                    _selection = s;
-                  });
-                },
+      body: new Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: new ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return new Padding(
+              padding: EdgeInsets.fromLTRB(0.0, padding / 2, 0.0, padding / 2),
+              child: Material(
+                color: (item == _selection) ? Colors.white.withAlpha(40) : Colors.white10,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      height: height,
+                      width: width,
+                      child: new Center(
+                        child: RadioListTile(
+                          activeColor: Colors.white,
+                          value: item,
+                          title: Text(item.id),
+                          groupValue: _selection,
+                          selected: item == _selection,
+                          onChanged: (s) {
+                            setState(() {
+                              _selection = s;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: new Transform.translate(
         offset: new Offset(width * 0.2 + 24.0, width * 0.2 + 24.0),
