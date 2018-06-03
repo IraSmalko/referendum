@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pigment/pigment.dart';
 import 'package:referendum/data/account.dart';
+import 'package:referendum/repository/results_repo.dart';
 import 'package:referendum/screens/list/list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _parseQrResult(String result) {
     Map accountMap = json.decode(result);
     var account = new Account.fromJson(accountMap);
+    Repo.repo.setData(account.priv, account.poll);
     Navigator.of(context).popAndPushNamed(ListScreen.path);
   }
 

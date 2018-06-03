@@ -13,8 +13,6 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateMixin {
-  final repo = ResultsRepo();
-
   final height = 96.0;
   final padding = 16.0;
 
@@ -29,7 +27,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
     super.initState();
 
     var firstRun = true;
-    repo.getResults().listen((List<double> resultList) {
+    Repo.repo.getResults().listen((List<double> resultList) {
       if (firstRun) {
         firstRun = false;
         for (var i = 0; i < resultList.length; i++) {

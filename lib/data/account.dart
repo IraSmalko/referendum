@@ -1,13 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'package:referendum/data/account.g.dart';
-
-@JsonSerializable()
-class Account extends Object with _$AccountSerializerMixin {
+class Account {
+  final int poll;
   final String priv;
-  final String pub;
 
-  Account({this.priv, this.pub});
-
-  factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
+  Account.fromJson(Map<String, dynamic> json)
+      : poll = json['poll'],
+        priv = json['priv'];
 }

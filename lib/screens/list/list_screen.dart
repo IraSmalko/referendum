@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:referendum/data/poll.dart';
-import 'package:referendum/repository/mock_repo.dart';
+import 'package:referendum/repository/results_repo.dart';
 import 'package:referendum/screens/results/results.dart';
 
 class ListScreen extends StatefulWidget {
@@ -15,11 +15,21 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final items = MockRepo.getPollList();
+  var _items = <PollItem>[];
 
   final height = 96.0;
   final padding = 16.0;
   PollItem _selection;
+
+  @override
+  void initState() {
+    (() async {
+      final items = await Repo.repo.getPollList();
+      setState(() {
+        _items = items;
+      });
+    })();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +40,9 @@ class _ListScreenState extends State<ListScreen> {
       body: new Padding(
         padding: const EdgeInsets.all(16.0),
         child: new ListView.builder(
-          itemCount: items.length,
+          itemCount: _items.length,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final item = _items[index];
             return new Padding(
               padding: EdgeInsets.fromLTRB(0.0, padding / 2, 0.0, padding / 2),
               child: Material(
