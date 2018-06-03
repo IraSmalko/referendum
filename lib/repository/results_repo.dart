@@ -11,5 +11,11 @@ class ResultsRepo {
     }
 
     yield results;
+
+    for (var i = 0; i < results.length; i++) {
+      results[i] = results[i] + 0.15;
+    }
+
+    yield results;
   }
 }
