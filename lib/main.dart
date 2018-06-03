@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
         ListScreen.path: (ctx) => ListScreen(),
         ResultsScreen.path: (ctx) => ResultsScreen(),
       },
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+      theme: ThemeData(primarySwatch: Colors.grey),
     );
   }
 }
