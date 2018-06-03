@@ -28,40 +28,24 @@ class _ListScreenState extends State<ListScreen> {
       backgroundColor: Pigment.fromString("#263238"),
       key: _scaffoldKey,
       body: new Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(0.0, padding, 0.0, 0.0),
         child: new ListView.builder(
-          itemCount: items.length,
+          itemCount: items.length + 1,
+          itemExtent: height,
           itemBuilder: (context, index) {
-            final item = items[index];
-            return new Padding(
-              padding: EdgeInsets.fromLTRB(0.0, padding / 2, 0.0, padding / 2),
-              child: Material(
-                color: (item == _selection) ? Colors.white.withAlpha(40) : Colors.white10,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      height: height,
-                      width: width,
-                      child: new Center(
-                        child: RadioListTile(
-                          activeColor: Colors.white,
-                          value: item,
-                          title: Text(item.id),
-                          groupValue: _selection,
-                          selected: item == _selection,
-                          onChanged: (s) {
-                            setState(() {
-                              _selection = s;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            if (index == 0) {
+              return new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                    "Vote for the team",
+                    textScaleFactor: 2.0,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              );
+            }
+            return _buildListItem(items[index - 1]);
           },
         ),
       ),
@@ -114,6 +98,45 @@ class _ListScreenState extends State<ListScreen> {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {}
+
+  Widget _buildListItem(PollItem item) {
+    return new Padding(
+      padding: EdgeInsets.fromLTRB(padding, padding / 2, padding, padding / 2),
+      child: Material(
+        color: Pigment.fromString("#263238"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        child: new Container(
+          decoration: (item == _selection)
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Pigment.fromString("#ff6a00"), Pigment.fromString("#ee0979")]))
+              : BoxDecoration(color: Colors.white10),
+          child: RadioListTile(
+            activeColor: Colors.white,
+            value: item,
+            title: new Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                item.id,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            groupValue: _selection,
+            selected: item == _selection,
+            onChanged: (s) {
+              setState(() {
+                _selection = s;
+              });
+            },
           ),
         ),
       ),
