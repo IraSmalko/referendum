@@ -153,7 +153,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
                           ),
                           new Text(
 //                            "${item.votes / 18 * 100}%"
-                                "41%", // TODO: calculate result
+                            "41%", // TODO: calculate result
                             style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ],
