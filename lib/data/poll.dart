@@ -1,11 +1,13 @@
 class Poll {
-  final String id;
+  final int id;
+  final String name;
 
-  Poll(this.id);
+  Poll(this.id, this.name);
 }
 
 class PollItem {
-  final String id;
+  final int id;
+  final String name;
 
-  PollItem(this.id);
+  PollItem(this.id, this.name);
 }

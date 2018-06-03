@@ -7,6 +7,7 @@ import 'package:referendum/data/poll.dart';
 import 'package:web3dart/web3dart.dart';
 
 class Repo {
+  static final num = 18;
   static final repo = Repo();
   static Web3Client _client;
   static Credentials _cred;
@@ -34,33 +35,14 @@ class Repo {
     _contract = new DeployedContract(_abi, ADDR, _client, _cred);
   }
 
-  Future<List<PollItem>> getPollList() async {
-    if (_contract == null) {
-      final x = await getContract();
-    }
-
-    //    final f = _contract.findFunctionsByName("newPoll").first;
-//
-//    final response = await new Transaction(keys: _cred, maximumGas: 0).prepareForCall(_contract, f, [
-//      [0x4707469662031, 0x4707469662032, 0x470746966203],
-//      2
-//    ]).call(_client);
-
-//    print(response);
-
-//    final acc = await _();
-//    final results = <PollItem>[];
-//    for (var a in acc) {
-//      results.add(PollItem(a.toString()));
-//    }
-//    return results;
-
+  List<PollItem> getPollList() {
     return [
-      PollItem("Helper class which implements 1"),
-      PollItem("Helper class which implements 2"),
-      PollItem("Helper class which implements 3"),
-      PollItem("Helper class which implements 4"),
-      PollItem("Helper class which implements 5"),
+      PollItem(1, "Super Team"),
+      PollItem(2, "Chemical brothers"),
+      PollItem(3, "4 place"),
+      PollItem(4, "Hrestek"),
+      PollItem(5, "Code Crowd"),
+      PollItem(6, "Team 7"),
     ];
   }
 

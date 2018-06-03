@@ -23,12 +23,12 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   void initState() {
-    (() async {
-      final items = await Repo.repo.getPollList();
-      setState(() {
-        _items = items;
-      });
-    })();
+    super.initState();
+
+    final items = Repo.repo.getPollList();
+    setState(() {
+      _items = items;
+    });
   }
 
   @override
@@ -114,8 +114,6 @@ class _ListScreenState extends State<ListScreen> {
     );
   }
 
-  Widget _buildHeader() {}
-
   Widget _buildListItem(PollItem item) {
     return new Padding(
       padding: EdgeInsets.fromLTRB(padding, padding / 2, padding, padding / 2),
@@ -136,7 +134,7 @@ class _ListScreenState extends State<ListScreen> {
             title: new Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                item.id,
+                item.name,
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -157,6 +155,7 @@ class _ListScreenState extends State<ListScreen> {
     if (_selection == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a command!')));
     } else {
+      // TODO: send selected team
       Navigator.of(context).pushReplacementNamed(ResultsScreen.path);
     }
   }

@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
+import 'package:referendum/data/poll.dart';
 import 'package:referendum/repository/results_repo.dart';
 import 'package:referendum/screens/home/home.dart';
 
@@ -26,22 +25,22 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
   void initState() {
     super.initState();
 
-    var firstRun = true;
-    Repo.repo.getResults().listen((List<double> resultList) {
-      if (firstRun) {
-        firstRun = false;
-        for (var i = 0; i < resultList.length; i++) {
-          listItems.insert(i, _buildListItem(context));
-          _controllers[i].animateTo(resultList[i]);
-        }
-      } else {
-        new Future.delayed(const Duration(seconds: 2), () {
-          for (var i = 0; i < resultList.length; i++) {
-            _controllers[i].animateTo(resultList[i]);
-          }
-        });
-      }
-    });
+//    var firstRun = true;
+//    Repo.repo.getResults().listen((List<double> resultList) {
+//      if (firstRun) {
+//        firstRun = false;
+//        for (var i = 0; i < resultList.length; i++) {
+//          listItems.insert(i, _buildListItem(context));
+//          _controllers[i].animateTo(resultList[i]);
+//        }
+//      } else {
+//        new Future.delayed(const Duration(seconds: 2), () {
+//          for (var i = 0; i < resultList.length; i++) {
+//            _controllers[i].animateTo(resultList[i]);
+//          }
+//        });
+//      }
+//    });
   }
 
   @override
@@ -54,6 +53,13 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    final items = Repo.repo.getPollList();
+    for (var i = 0; i < items.length; i++) {
+      listItems.insert(i, _buildListItem(items[i], width));
+    }
+
     return Scaffold(
       backgroundColor: Pigment.fromString("#263238"),
       body: new Padding(
@@ -103,9 +109,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildListItem(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
+  Widget _buildListItem(PollItem item, double width) {
     final controller = new AnimationController(
       duration: _duration,
       vsync: this,
@@ -143,12 +147,13 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
                         children: [
                           new Expanded(
                             child: new Text(
-                              "Komanda 7",
+                              item.name,
                               style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
                           ),
                           new Text(
-                            "41%",
+//                            "${item.votes / 18 * 100}%"
+                                "41%", // TODO: calculate result
                             style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ],
