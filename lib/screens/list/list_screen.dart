@@ -77,11 +77,17 @@ class _ListScreenState extends State<ListScreen> {
                   new Ink(
                     child: new Material(
                       shape: new CircleBorder(),
-                      color: Colors.green,
-                      child: new SizedBox(
-                        height: width * 0.35,
-                        width: width * 0.35,
-                        child: InkWell(onTap: sendVoteResult),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Pigment.fromString("#ff6a00"), Pigment.fromString("#ee0979")])),
+                        child: new SizedBox(
+                          height: width * 0.4,
+                          width: width * 0.4,
+                          child: InkWell(onTap: sendVoteResult),
+                        ),
                       ),
                     ),
                   ),
@@ -89,6 +95,7 @@ class _ListScreenState extends State<ListScreen> {
                     offset: new Offset(width * 0.08, width * 0.1),
                     child: Text(
                       'Vote',
+                      style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
                   ),
                 ],
