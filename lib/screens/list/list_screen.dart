@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:referendum/data/poll.dart';
 import 'package:referendum/repository/mock_repo.dart';
+import 'package:referendum/screens/results/results.dart';
 
 class ListScreen extends StatefulWidget {
-  static final String path = "/";
+  static final String path = "/list";
 
   ListScreen({Key key}) : super(key: key);
 
@@ -66,7 +67,7 @@ class _ListScreenState extends State<ListScreen> {
                       child: new SizedBox(
                         height: width * 0.35,
                         width: width * 0.35,
-                        child: InkWell(onTap: sendVoteResult),
+                        child: InkWell(onTap: _sendVoteResult),
                       ),
                     ),
                   ),
@@ -85,7 +86,7 @@ class _ListScreenState extends State<ListScreen> {
     );
   }
 
-  void sendVoteResult() {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Hi sendVoteResult')));
+  void _sendVoteResult() {
+    Navigator.of(context).pushNamed(ResultsScreen.path);
   }
 }
