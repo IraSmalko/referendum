@@ -87,7 +87,7 @@ class _ListScreenState extends State<ListScreen> {
                         child: new SizedBox(
                           height: width * 0.4,
                           width: width * 0.4,
-                          child: InkWell(onTap: sendVoteResult),
+                          child: InkWell(onTap: _sendVoteResult),
                         ),
                       ),
                     ),
@@ -95,7 +95,7 @@ class _ListScreenState extends State<ListScreen> {
                   Transform.translate(
                     offset: new Offset(width * 0.05, width * 0.1),
                     child: FlatButton(
-                      onPressed: sendVoteResult,
+                      onPressed: _sendVoteResult,
                       child: Text(
                         'Vote',
                         style: new TextStyle(
@@ -116,6 +116,10 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   void _sendVoteResult() {
-    Navigator.of(context).pushNamed(ResultsScreen.path);
+    if (_selection == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a command!')));
+    } else {
+      Navigator.of(context).pushNamed(ResultsScreen.path);
+    }
   }
 }
