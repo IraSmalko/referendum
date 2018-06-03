@@ -38,40 +38,24 @@ class _ListScreenState extends State<ListScreen> {
       backgroundColor: Pigment.fromString("#263238"),
       key: _scaffoldKey,
       body: new Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(0.0, padding, 0.0, 0.0),
         child: new ListView.builder(
-          itemCount: _items.length,
+          itemCount: _items.length + 1,
+          itemExtent: height,
           itemBuilder: (context, index) {
-            final item = _items[index];
-            return new Padding(
-              padding: EdgeInsets.fromLTRB(0.0, padding / 2, 0.0, padding / 2),
-              child: Material(
-                color: (item == _selection) ? Colors.white.withAlpha(40) : Colors.white10,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      height: height,
-                      width: width,
-                      child: new Center(
-                        child: RadioListTile(
-                          activeColor: Colors.white,
-                          value: item,
-                          title: Text(item.id),
-                          groupValue: _selection,
-                          selected: item == _selection,
-                          onChanged: (s) {
-                            setState(() {
-                              _selection = s;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            if (index == 0) {
+              return new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                    "Vote for the team",
+                    textScaleFactor: 2.0,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              );
+            }
+            return _buildListItem(_items[index - 1]);
           },
         ),
       ),
@@ -97,21 +81,26 @@ class _ListScreenState extends State<ListScreen> {
                         child: new SizedBox(
                           height: width * 0.4,
                           width: width * 0.4,
-                          child: InkWell(onTap: _sendVoteResult),
+                          child: InkWell(
+                            onTap: _sendVoteResult,
+                          ),
                         ),
                       ),
                     ),
                   ),
                   Transform.translate(
                     offset: new Offset(width * 0.05, width * 0.1),
-                    child: FlatButton(
-                      onPressed: _sendVoteResult,
-                      child: Text(
-                        'Vote',
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                    child: new InkWell(
+                      onTap: _sendVoteResult,
+                      child: FlatButton(
+                        onPressed: null,
+                        child: Text(
+                          'Vote',
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ),
@@ -125,11 +114,50 @@ class _ListScreenState extends State<ListScreen> {
     );
   }
 
+  Widget _buildHeader() {}
+
+  Widget _buildListItem(PollItem item) {
+    return new Padding(
+      padding: EdgeInsets.fromLTRB(padding, padding / 2, padding, padding / 2),
+      child: Material(
+        color: Pigment.fromString("#263238"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        child: new Container(
+          decoration: (item == _selection)
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Pigment.fromString("#ff6a00"), Pigment.fromString("#ee0979")]))
+              : BoxDecoration(color: Colors.white10),
+          child: RadioListTile(
+            activeColor: Colors.white,
+            value: item,
+            title: new Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                item.id,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            groupValue: _selection,
+            selected: item == _selection,
+            onChanged: (s) {
+              setState(() {
+                _selection = s;
+              });
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
   void _sendVoteResult() {
     if (_selection == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a command!')));
     } else {
-      Navigator.of(context).pushNamed(ResultsScreen.path);
+      Navigator.of(context).pushReplacementNamed(ResultsScreen.path);
     }
   }
 }

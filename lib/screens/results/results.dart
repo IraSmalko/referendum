@@ -60,21 +60,24 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
         padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
         child: ListView.builder(
           itemExtent: height,
-          itemCount: 5,
+          itemCount: listItems.length + 1,
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
               return _buildHeader();
             } else {
-              return listItems[index];
+              return listItems[index - 1];
             }
           },
         ),
       ),
       floatingActionButton: new FloatingActionButton(
           backgroundColor: Colors.pinkAccent,
-          child: Icon(Icons.exit_to_app),
+          child: Icon(
+            Icons.exit_to_app,
+            color: Colors.white,
+          ),
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.path, (Route<dynamic> route) => false);
+            Navigator.of(context).pushReplacementNamed(HomeScreen.path);
           }),
     );
   }
