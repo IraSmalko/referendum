@@ -8,6 +8,7 @@ class Poll {
 class PollItem {
   final int id;
   final String name;
+  double votes;
 
-  PollItem(this.id, this.name);
+  PollItem(this.id, this.name, this.votes);
 }

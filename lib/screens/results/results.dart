@@ -25,22 +25,18 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
   void initState() {
     super.initState();
 
-//    var firstRun = true;
-//    Repo.repo.getResults().listen((List<double> resultList) {
-//      if (firstRun) {
-//        firstRun = false;
-//        for (var i = 0; i < resultList.length; i++) {
-//          listItems.insert(i, _buildListItem(context));
-//          _controllers[i].animateTo(resultList[i]);
-//        }
-//      } else {
-//        new Future.delayed(const Duration(seconds: 2), () {
-//          for (var i = 0; i < resultList.length; i++) {
-//            _controllers[i].animateTo(resultList[i]);
-//          }
-//        });
-//      }
-//    });
+//    final items = Repo.repo.getPollList();
+//    for (var i = 0; i < items.length; i++) {
+//      listItems.insert(i, _buildListItem(items[i], context));
+//      _controllers[i].animateTo(items[i].votes);
+//    }
+
+    Repo.repo.getResults().listen((List<PollItem> resultList) {
+      for (var i = 0; i < resultList.length; i++) {
+        listItems.insert(i, _buildListItem(resultList[i], context));
+        _controllers[i].animateTo(resultList[i].votes / Repo.num);
+      }
+    });
   }
 
   @override
@@ -53,13 +49,6 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    final items = Repo.repo.getPollList();
-    for (var i = 0; i < items.length; i++) {
-      listItems.insert(i, _buildListItem(items[i], width));
-    }
-
     return Scaffold(
       backgroundColor: Pigment.fromString("#263238"),
       body: new Padding(
@@ -109,7 +98,9 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildListItem(PollItem item, double width) {
+  Widget _buildListItem(PollItem item, BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     final controller = new AnimationController(
       duration: _duration,
       vsync: this,
@@ -152,8 +143,8 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
                             ),
                           ),
                           new Text(
-//                            "${item.votes / 18 * 100}%"
-                            "41%", // TODO: calculate result
+                            "${(item.votes / 18 * 100).toInt()}%",
+//                            "41%", // TODO: calculate result
                             style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ],

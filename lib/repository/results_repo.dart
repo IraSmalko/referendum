@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart';
@@ -37,30 +36,46 @@ class Repo {
 
   List<PollItem> getPollList() {
     return [
-      PollItem(1, "Super Team"),
-      PollItem(2, "Chemical brothers"),
-      PollItem(3, "4 place"),
-      PollItem(4, "Hrestek"),
-      PollItem(5, "Code Crowd"),
-      PollItem(6, "Team 7"),
+      PollItem(1, "Super Team", 3.0),
+      PollItem(2, "Chemical brothers", 2.0),
+      PollItem(3, "4 place", 6.0),
+      PollItem(4, "Hrestek", 3.0),
+      PollItem(5, "Code Crowd", 1.0),
+      PollItem(6, "Team 7", 3.0),
     ];
   }
 
-  Stream<List<double>> getResults() async* {
-//    if (_contract == null) await getContract();
+//  Stream<List<double>> getResults() async* {
+////    if (_contract == null) await getContract();
+//
+//    final random = new Random();
+//    final results = <double>[];
+//
+//    for (var i = 0; i < 5; i++) {
+//      results.add(random.nextDouble());
+//    }
+//
+//    yield results;
+//
+//    for (var i = 0; i < results.length; i++) {
+//      results[i] = results[i] + 0.15;
+//    }
+//
+//    yield results;
+//  }
 
-    final random = new Random();
-    final results = <double>[];
+  Stream<List<PollItem>> getResults() async* {
+//    final random = new Random();
+//    final results = <double>[];
 
-    for (var i = 0; i < 5; i++) {
-      results.add(random.nextDouble());
-    }
-
-    yield results;
-
-    for (var i = 0; i < results.length; i++) {
-      results[i] = results[i] + 0.15;
-    }
+    List<PollItem> results = [
+      PollItem(1, "Super Team", 3.0),
+      PollItem(2, "Chemical brothers", 2.0),
+      PollItem(3, "4 place", 6.0),
+      PollItem(4, "Hrestek", 3.0),
+      PollItem(5, "Code Crowd", 1.0),
+      PollItem(6, "Team 7", 3.0),
+    ];
 
     yield results;
   }
