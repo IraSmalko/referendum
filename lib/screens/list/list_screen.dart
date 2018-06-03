@@ -22,10 +22,7 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final width = MediaQuery.of(context).size.width;
     return new Scaffold(
       backgroundColor: Pigment.fromString("#263238"),
       key: _scaffoldKey,
