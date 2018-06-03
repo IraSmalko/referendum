@@ -22,7 +22,10 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return new Scaffold(
       backgroundColor: Pigment.fromString("#263238"),
       key: _scaffoldKey,
@@ -92,10 +95,17 @@ class _ListScreenState extends State<ListScreen> {
                     ),
                   ),
                   Transform.translate(
-                    offset: new Offset(width * 0.08, width * 0.1),
-                    child: Text(
-                      'Vote',
-                      style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                    offset: new Offset(width * 0.05, width * 0.1),
+                    child: FlatButton(
+                      onPressed: sendVoteResult,
+                      child: Text(
+                        'Vote',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        ),
+                      ),
                     ),
                   ),
                 ],
