@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:referendum/repository/results_repo.dart';
@@ -10,12 +12,12 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateMixin {
-  final results = ResultsRepo.observeResults();
+  final repo = ResultsRepo();
 
   final height = 96.0;
   final padding = 16.0;
 
-  final _duration = const Duration(milliseconds: 5000);
+  final _duration = const Duration(milliseconds: 1500);
   final _curve = Curves.fastOutSlowIn;
 
   List<Widget> listItems = [];
@@ -25,11 +27,21 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
   void initState() {
     super.initState();
 
-    var index = 0;
-    results.listen((double value) {
-      listItems.add(buildListItem(context));
-      _controllers[index].animateTo(value);
-      index++;
+    var firstRun = true;
+    repo.getResults().listen((List<double> resultList) {
+      if (firstRun) {
+        firstRun = false;
+        for (var i = 0; i < resultList.length; i++) {
+          listItems.insert(i, buildListItem(context));
+          _controllers[i].animateTo(resultList[i]);
+        }
+      } else {
+        new Future.delayed(const Duration(seconds: 2), () {
+          for (var i = 0; i < resultList.length; i++) {
+            _controllers[i].animateTo(resultList[i]);
+          }
+        });
+      }
     });
   }
 
