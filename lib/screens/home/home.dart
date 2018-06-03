@@ -73,18 +73,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     end: Alignment.bottomRight,
                     colors: [Pigment.fromString("#ff6a00"), Pigment.fromString("#ee0979")])),
           ),
-          Container(
-            decoration:
-                BoxDecoration(gradient: RadialGradient(radius: 0.45, colors: [Colors.black, Colors.transparent])),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(width * 0.2),
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: FadeTransition(
-                    opacity: anim,
-                    child: ScaleTransition(
-                      scale: anim,
+          FadeTransition(
+            opacity: anim,
+            child: ScaleTransition(
+              scale: anim,
+              child: Container(
+                decoration:
+                    BoxDecoration(gradient: RadialGradient(radius: 0.45, colors: [Colors.black, Colors.transparent])),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(width * 0.2),
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
                       child: FlatButton(
                         color: Colors.white,
                         child: Text(

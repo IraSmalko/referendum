@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:referendum/repository/results_repo.dart';
+import 'package:referendum/screens/home/home.dart';
 
 class ResultsScreen extends StatefulWidget {
   static final String path = "/results";
@@ -17,7 +18,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
   final height = 96.0;
   final padding = 16.0;
 
-  final _duration = const Duration(milliseconds: 1500);
+  final _duration = const Duration(milliseconds: 2000);
   final _curve = Curves.fastOutSlowIn;
 
   List<Widget> listItems = [];
@@ -32,7 +33,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
       if (firstRun) {
         firstRun = false;
         for (var i = 0; i < resultList.length; i++) {
-          listItems.insert(i, buildListItem(context));
+          listItems.insert(i, _buildListItem(context));
           _controllers[i].animateTo(resultList[i]);
         }
       } else {
@@ -58,19 +59,50 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
     return Scaffold(
       backgroundColor: Pigment.fromString("#263238"),
       body: new Padding(
-        padding: EdgeInsets.all(padding),
+        padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
         child: ListView.builder(
           itemExtent: height,
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
-            return listItems[index];
+            if (index == 0) {
+              return _buildHeader();
+            } else {
+              return listItems[index];
+            }
           },
         ),
       ),
+      floatingActionButton: new FloatingActionButton(
+          backgroundColor: Colors.pinkAccent,
+          child: Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.path, (Route<dynamic> route) => false);
+          }),
     );
   }
 
-  Widget buildListItem(BuildContext context) {
+  Widget _buildHeader() {
+    return new Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        new Text(
+          "Results",
+          textScaleFactor: 2.0,
+          style: TextStyle(color: Colors.white),
+        ),
+        new Padding(
+          padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
+          child: Text(
+            "People voted: 5/7",
+            textScaleFactor: 1.0,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildListItem(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
     final controller = new AnimationController(
@@ -87,7 +119,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) => new Padding(
-            padding: EdgeInsets.fromLTRB(0.0, padding / 2, 0.0, padding / 2),
+            padding: EdgeInsets.fromLTRB(padding, padding / 2, padding, padding / 2),
             child: Material(
               color: Colors.white10,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -103,10 +135,23 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
                             end: Alignment.bottomRight,
                             colors: [Pigment.fromString("#ff6a00"), Pigment.fromString("#ee0979")])),
                   ),
-                  Center(
-                    child: Text(
-                      "Command 7",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  new Center(
+                    child: new Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new Row(
+                        children: [
+                          new Expanded(
+                            child: new Text(
+                              "Komanda 7",
+                              style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                          ),
+                          new Text(
+                            "41%",
+                            style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
