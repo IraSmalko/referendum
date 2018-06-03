@@ -89,7 +89,7 @@ class _ResultsScreenState extends State<ResultsScreen> with TickerProviderStateM
         new Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
           child: Text(
-            "People voted: 5/7",
+            "People voted: 7/7",
             textScaleFactor: 1.0,
             style: TextStyle(color: Colors.white),
           ),
